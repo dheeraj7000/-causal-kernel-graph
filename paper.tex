@@ -3,7 +3,7 @@
 
 \documentclass[10pt]{article}
 
-\usepackage[letterpaper,top=1.0in,bottom=1.0in,left=1.5in,right=1.5in]{geometry}
+\usepackage[letterpaper,top=1.0in,bottom=1.0in,left=1.0in,right=1.0in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{times}
@@ -16,11 +16,36 @@
 \usepackage{titlesec}
 \usepackage{caption}
 \usepackage{enumitem}
-\usepackage{url}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{xurl}
 \usepackage[numbers,sort&compress]{natbib}
-\usepackage[hidelinks,colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage[hidelinks,colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue,breaklinks=true]{hyperref}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+
+% Aggressive line-break tolerance for ttfamily-heavy text
+\sloppy
+\tolerance=4000
+\emergencystretch=4em
+\hbadness=10000
+\hfuzz=1pt
+\vfuzz=1pt
+\clubpenalty=10000
+\widowpenalty=10000
+
+% Permit breaks inside long monospace identifiers (underscores, dots, hyphens)
+\makeatletter
+\DeclareRobustCommand{\bk}[1]{%
+  \begingroup\ttfamily\spaceskip=0pt\xspaceskip=0pt
+  \def\@bkchar##1{\penalty0 ##1\penalty\@m}%
+  \@for\@tmp:=#1\do{\@tmp}%
+  \endgroup}
+\makeatother
+% Simpler: a tt that allows break after every char
+\newcommand{\tts}[1]{\texttt{\seqsplit{#1}}}
+
+% URL line-break helper
+\renewcommand{\UrlBreaks}{\do\/\do\-\do\_\do\.\do\=\do\?\do\&\do\#}
 
 % NeurIPS-style section headings: small caps, no numbering decoration
 \titleformat{\section}{\normalsize\bfseries\scshape}{\thesection}{0.5em}{}
@@ -106,7 +131,8 @@ We are explicit about scope. This paper introduces the substrate and demonstrate
 
 \paragraph{The Triton/MLIR pipeline.} Triton~\citep{tillet2019triton} lowers a Python-embedded tile DSL through a multi-dialect MLIR pipeline: \texttt{tt} (Triton IR, TTIR) $\to$ \texttt{ttg} (TritonGPU IR, TTGIR) $\to$ LLVM IR $\to$ PTX $\to$ SASS. A typical compilation invokes 50--60 named passes; module-level attributes such as \texttt{"ttg.num-warps"}, \texttt{"ttg.num-ctas"}, and \texttt{"ttg.target"} are user-tunable knobs that propagate through the pipeline, and \texttt{LayoutEncoding} attributes (\texttt{\#ttg.blocked}, \texttt{\#ttg.swizzled\_shared}, \texttt{\#ttg.mma}, etc.) are first-class IR objects that determine memory access patterns.
 
-\paragraph{Profiling and PC sampling.} NCU exposes warp-stall reasons via the \texttt{smsp\_\_pcsamp\_warps\_issue\_stalled\_*} metric family at per-SASS-PC granularity. \texttt{ptxas -lineinfo} embeds DWARF line tables in cubins, allowing back-mapping from PC to source line~\citep{nsightdoc}.
+\paragraph{Profiling and PC sampling.} NCU exposes warp-stall reasons via the
+\texttt{smsp\discretionary{}{}{}\_\_pcsamp\discretionary{}{}{}\_warps\discretionary{}{}{}\_issue\discretionary{}{}{}\_stalled\discretionary{}{}{}\_*} metric family at per-SASS-PC granularity. \texttt{ptxas -lineinfo} embeds DWARF line tables in cubins, allowing back-mapping from PC to source line~\citep{nsightdoc}.
 
 \paragraph{Compiler provenance.} MLIR's \texttt{FusedLoc} attaches multiple source locations to an op, and \texttt{PassInstrumentation} exposes per-pass hooks~\citep{mlir2021}. Neither is, on its own, a hardware-anchored attribution artifact: locations describe \emph{where} an op originated, not \emph{why} it stalls at runtime.
 
@@ -167,28 +193,29 @@ The system is organised as a Phase~1 capture pipeline (compiler-side provenance 
 
 \begin{figure}[t]
 \centering
-\fbox{\begin{minipage}{0.92\linewidth}\footnotesize\ttfamily
-\begin{tabbing}
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\=\kill
-\textbf{Phase 1 (compiler-side):}\\
-\quad triton.compile(script) \\
-\quad\quad + MLIR\_ENABLE\_DUMP=1, TRITON\_ALWAYS\_COMPILE=1, TRITON\_KERNEL\_DUMP=1\\
-\quad\quad + libCagPassInstrumentation.so (TRITON\_CAG\_EVENTS\_PATH=events.cpp.ndjson)\\
-\quad ----$>$ events.ndjson (pass\_before / stage\_end / sass\_dump / kernel\_meta)\\
-\quad ----$>$ ir/0000\_TritonCombineOps.mlir, ..., 0059\_LLVMDIScope.mlir\\
-\quad ----$>$ stage/{ttir,ttgir,llir,ptx,amdgcn}, sass.txt, kernel.cubin\\[0.3em]
-\textbf{Phase 2 (hardware-side):}\\
-\quad ncu --csv --metrics \{65 metrics\} python script.py\\
-\quad ncu --import \dots\ --pc-sampling   ---$>$ pc\_samples (per SASS PC)\\
-\quad cuobjdump --dump-sass + objdump --dwarf=decodedline kernel.cubin\\
-\quad ----$>$ pc\_map.json, pc\_attribution.json\\[0.3em]
-\textbf{Linker:} cag.link.build\_graph(run\_dir)\\
-\quad ----$>$ cag\_graph.jsonl (validated nodes + edges)\\[0.3em]
-\textbf{Intervention:} cag.sweep.sweep(script, knob, [v1, v2, \ldots])\\
-\quad ----$>$ sweep.csv + per-value CAG
-\end{tabbing}
-\end{minipage}}
-\caption{Data flow. Phase 1 produces a provenance graph from the compiler; Phase 2 anchors it in measured hardware symptoms. The intervention engine wraps the whole pipeline in a parameter sweep.}
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize,frame=single,framerule=0.4pt,rulecolor=\color{black!40},backgroundcolor=\color{codegray},xleftmargin=0.4em,xrightmargin=0.4em,aboveskip=0.4em,belowskip=0.2em]
+PHASE 1  (compiler-side capture)
+  triton.compile(script)
+    env: MLIR_ENABLE_DUMP=1, TRITON_ALWAYS_COMPILE=1,
+         TRITON_KERNEL_DUMP=1, PYTHONHASHSEED=0
+    + libCagPassInstrumentation.so  (TRITON_CAG_EVENTS_PATH=*.ndjson)
+  --> events.ndjson      pass_before / stage_end / sass_dump / kernel_meta
+  --> ir/0000_TritonCombineOps.mlir ... 0059_LLVMDIScope.mlir
+  --> stage/{ttir,ttgir,llir,ptx,amdgcn},  sass.txt,  kernel.cubin
+
+PHASE 2  (hardware-side measurement)
+  ncu  --csv --metrics {65 stable counters}  python script.py
+  ncu  --import *.ncu-rep  --pc-sampling     --> per-SASS-PC stalls
+  cuobjdump --dump-sass    +  objdump --dwarf=decodedline  kernel.cubin
+  --> pc_map.json,  pc_attribution.json
+
+LINKER          cag.link.build_graph(run_dir)
+                --> cag_graph.jsonl    (validated nodes + edges)
+
+INTERVENTION    cag.sweep.sweep(script, knob, [v1, v2, ...])
+                --> sweep.csv  +  one CAG per knob value
+\end{lstlisting}
+\caption{Data flow. Phase~1 produces a provenance graph from the compiler; Phase~2 anchors it in measured hardware symptoms. The intervention engine wraps the whole pipeline in a parameter sweep.}
 \label{fig:arch}
 \end{figure}
 
@@ -316,14 +343,15 @@ All measurements were taken with:
 The corpus contains three Triton kernels with deliberately seeded regressions. \texttt{corpus/CATALOG.md} records the gold-label cause for each:
 
 \begin{table}[h]
-\centering\small
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lllll@{}}
 \toprule
 \textbf{Kernel} & \textbf{Regression variant} & \textbf{Seeded change} & \textbf{Expected symptom} & \textbf{Target knob} \\ \midrule
-Vector add & \texttt{regression\_block\_size.py}   & \texttt{BLOCK\_SIZE=32}      & High launch overhead, poor coalescing      & \texttt{BLOCK\_SIZE} \\
-Matmul     & \texttt{regression\_num\_stages.py}   & \texttt{num\_stages=1}       & Long-scoreboard memory-latency stalls      & \texttt{num\_stages} \\
-Matmul     & \texttt{regression\_bank\_conflicts.py} & Small tiles, no swizzle    & Shared-memory bank conflicts                & layout + tiles \\
-Softmax    & \texttt{regression\_num\_warps.py}    & \texttt{num\_warps=1}        & Low occupancy, poor latency hiding          & \texttt{num\_warps} \\
+Vector add & \texttt{regression\_block\_size.py}      & \texttt{BLOCK\_SIZE=32}   & launch overhead, poor coalescing & \texttt{BLOCK\_SIZE} \\
+Matmul     & \texttt{regression\_num\_stages.py}      & \texttt{num\_stages=1}    & long-scoreboard memory stalls    & \texttt{num\_stages} \\
+Matmul     & \texttt{regression\_bank\_conflicts.py}  & small tiles, no swizzle   & shared-memory bank conflicts     & layout + tiles \\
+Softmax    & \texttt{regression\_num\_warps.py}       & \texttt{num\_warps=1}     & low occupancy, weak latency hide & \texttt{num\_warps} \\
 \bottomrule
 \end{tabular}
 \caption{Deliberately regressed corpus. The CAG built for each variant should isolate the listed knob/layout as the cause of the expected symptom.}
