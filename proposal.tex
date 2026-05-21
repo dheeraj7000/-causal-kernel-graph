@@ -1,0 +1,97 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{microtype}
+
+\title{\textbf{Causal Provenance Graphs for GPU Kernel Optimization} \\ \large A Compiler-to-Hardware Attribution Layer for Agent-Driven Kernel Engineering}
+\author{SPOQ Research Group}
+\date{v3 (Revised with Parameterized Attribution) --- May 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We propose an attribution graph that links specific compiler-pass decisions and \textbf{optimization parameters} in MLIR/LLVM-based GPU pipelines (Triton) to the runtime symptoms they cause. Current tools localize stalls but fail to provide a machine-readable record of the ``Knobs'' (e.g., \texttt{num\_warps}, \texttt{num\_stages}, \texttt{LayoutEncodings}) responsible for regressions. We frame this as causal attribution using \textbf{attribute perturbation} as the intervention primitive, enabling LLM-driven agents to move beyond diagnostic hallucination toward a ``Prescription Map'' for kernel engineering.
+\end{abstract}
+
+\section{Motivation: The ``Symptom-Action'' Gap}
+In 2026, GPU kernel optimization is increasingly agentic (KernelAgent, Speed-of-Light agents). However, these agents suffer from two primary failures:
+\begin{enumerate}
+    \item \textbf{The Knob Problem:} Agents receive Nsight symptoms (``Bank Conflicts: 40\%'') but lack a mapping to the specific compiler knobs (e.g., \texttt{Shared Memory Swizzling Phase}) that could fix them.
+    \item \textbf{The Layout Identity Crisis:} In Triton, performance is dictated by \textbf{Data Layouts} (\texttt{Blocked}, \texttt{MMA}, \texttt{Shared}). A ``Pass'' is merely a vehicle for a layout decision. Current attribution ignores layout as a causal entity.
+    \item \textbf{Unrolling Mapping Hell:} A single source line (\texttt{a @ b}) expands into hundreds of SASS instructions via unrolling and pipelining. Without \textbf{Iteration-Aware Provenance}, an agent cannot distinguish between a stall in the ``Steady State'' vs. the ``Epilogue.''
+\end{enumerate}
+
+\section{Research Questions (Updated)}
+\begin{description}[style=multiline,leftmargin=3cm,font=\bfseries]
+    \item[RQ1] (Parameterized Attribution): Can a provenance graph that explicitly nodes \textbf{OptimizationParameters} and \textbf{LayoutEncodings} reduce the search space for LLM agents?
+    \item[RQ2] (Interventional Precision): Does \textbf{Attribute Perturbation} (modifying parameters) provide a more stable causal signal than binary \textbf{Pass Disablement}?
+    \item[RQ3] (Loop-Aware Provenance): Can iteration-tagged MLIR locations improve the top-1 attribution accuracy of stalls in heavily unrolled/pipelined kernels?
+\end{description}
+
+\section{Proposed Architecture}
+
+\subsection{The ``Prescription'' Graph Schema}
+We extend the standard provenance graph with first-class nodes for compiler ``Knobs'':
+\begin{itemize}
+    \item \textbf{Node Kinds:} 
+    \begin{itemize}
+        \item \texttt{SourceOp}: Original Python/Triton line.
+        \item \texttt{PassDecision}: The identity of the lowering pass (e.g., \texttt{TritonGPUPipeline}).
+        \item \textbf{\texttt{OptimizationParameter}}: Values like \texttt{num\_warps}, \texttt{num\_stages}, \texttt{threads\_per\_warp}.
+        \item \textbf{\texttt{LayoutEncoding}}: Specific data distributions (\texttt{\#blocked}, \texttt{\#mma}, \texttt{\#shared<swizzle=X>}).
+        \item \texttt{HardwareSymptom}: Nsight-style counters (e.g., \texttt{smsp\_\_warp\_stall\_long\_scoreboard\_pct}).
+    \end{itemize}
+    \item \textbf{Edge Kinds:}
+    \begin{itemize}
+        \item \texttt{governed\_by}: Maps an \texttt{OptimizationParameter} to the \texttt{PassDecision} that consumed it.
+        \item \texttt{manifested\_as}: Maps a \texttt{LayoutEncoding} to the specific SASS instructions/symptoms it produced.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Capture Layer: Iteration-Aware Provenance}
+To solve the 1:N mapping problem, we implement a custom \texttt{PassInstrumentation} that:
+\begin{enumerate}
+    \item \textbf{Wraps cloned operations} in a \texttt{FusedLoc} that includes the \texttt{unroll\_index} or \texttt{pipeline\_stage}.
+    \item \textbf{Preserves Layout Identity} across dialect conversion by attaching layout attributes to the binary's DWARF line info (via \texttt{ptxas -lineinfo} extensions).
+\end{enumerate}
+
+\subsection{The Intervention Layer: Beyond Binary Toggles}
+We move from ``Pass Disablement'' to \textbf{Parameter Sensitivity Analysis}:
+\begin{itemize}
+    \item \textbf{Attribute Perturbation:} The agent requests a ``Counterfactual Trace'' where \texttt{num\_warps} is incremented or \texttt{swizzle\_phase} is toggled.
+    \item \textbf{Layout Identity Intervention:} Forcing a change in the \texttt{\#shared} encoding (e.g., adding padding vs. swizzling) to isolate the cause of bank conflicts.
+    \item \textbf{Shapley Attribution:} Calculating the contribution of each \texttt{OptimizationParameter} to the observed hardware stall.
+\end{itemize}
+
+\section{Falsifiable Hypotheses (Revised)}
+\begin{itemize}
+    \item \textbf{H1 (Layout Attribution):} On kernels with shared-memory bank conflicts, the graph identifies the responsible \texttt{LayoutEncoding} attribute with top-1 accuracy $>$ 0.85.
+    \item \textbf{H2 (Prescription Uplift):} LLM agents given ``Prescription Maps'' (Parameters + Symptoms) reach the Pareto front of kernel performance in \textbf{30\% fewer iterations} than agents given only ``Diagnostic Maps'' (Passes + Symptoms).
+    \item \textbf{H3 (Provenance Granularity):} Iteration-aware tagging reduces the ``attribution noise'' for pipelined kernels by 2x compared to standard MLIR \texttt{FusedLoc}.
+\end{itemize}
+
+\section{Timeline \& Deliverables}
+\begin{itemize}
+    \item \textbf{M1-M3:} Build the \textbf{Parameter Capture Hook} in Triton; map \texttt{num\_warps}/\texttt{num\_stages} to IR metadata.
+    \item \textbf{M4-M6:} Implement \textbf{Causal Layout Mapping} (linking \texttt{\#shared} encodings to SASS bank-conflict counters).
+    \item \textbf{M7-M9:} Develop the \textbf{Intervention Layer} (automatic re-compilation with perturbed parameters).
+    \item \textbf{M10-12:} Large-scale agentic evaluation on the \textbf{KernelBench} suite.
+\end{itemize}
+
+\section{Expected Contributions}
+\begin{enumerate}
+    \item A \textbf{Formal Ontology} of GPU compiler knobs and their hardware consequences.
+    \item A \textbf{Triton-integrated Provenance Engine} that tracks loop-iteration indices and layout identities into machine code.
+    \item \textbf{Empirical Evidence} that parameterized causal graphs enable ``one-shot'' optimization for LLM agents, eliminating the need for exhaustive autotuning.
+\end{enumerate}
+
+\end{document}

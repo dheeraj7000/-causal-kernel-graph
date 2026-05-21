@@ -1,0 +1,268 @@
+{"node": {"id": "pass_0", "type": "Pass", "label": "inline", "desc": "Inliner"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_1", "type": "Pass", "label": "triton-rewrite-tensor-pointer", "desc": "TritonRewriteTensorPointer"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_2", "type": "Pass", "label": "triton-rewrite-tensor-descriptor-to-pointer", "desc": "TritonRewriteTensorDescriptorToPointer"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_3", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_4", "type": "Pass", "label": "triton-combine", "desc": "TritonCombineOps"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_5", "type": "Pass", "label": "triton-reorder-broadcast", "desc": "TritonReorderBroadcast"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_6", "type": "Pass", "label": "cse", "desc": "CSE"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_7", "type": "Pass", "label": "symbol-dce", "desc": "SymbolDCE"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_8", "type": "Pass", "label": "triton-loop-unroll", "desc": "TritonLoopUnroll"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_9", "type": "Pass", "label": "convert-triton-to-tritongpu", "desc": "ConvertTritonToTritonGPU"}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_10", "type": "Pass", "label": "tritongpu-coalesce", "desc": "TritonGPUCoalesce"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_11", "type": "Pass", "label": "tritongpu-F32DotTC", "desc": "TritonGPUF32DotTC"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_12", "type": "Pass", "label": "triton-nvidia-gpu-plan-cta", "desc": "TritonGPUPlanCTAPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_13", "type": "Pass", "label": "tritongpu-remove-layout-conversions", "desc": "TritonGPURemoveLayoutConversions"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_14", "type": "Pass", "label": "tritongpu-optimize-thread-locality", "desc": "TritonGPUOptimizeThreadLocality"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_15", "type": "Pass", "label": "tritongpu-accelerate-matmul", "desc": "TritonGPUAccelerateMatmul"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_16", "type": "Pass", "label": "tritongpu-remove-layout-conversions", "desc": "TritonGPURemoveLayoutConversions"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_17", "type": "Pass", "label": "tritongpu-optimize-dot-operands", "desc": "TritonGPUOptimizeDotOperands"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_18", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_19", "type": "Pass", "label": "triton-nvidia-optimize-descriptor-encoding", "desc": "TritonNvidiaGPUOptimizeDescriptorEncodingPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_20", "type": "Pass", "label": "triton-loop-aware-cse", "desc": "TritonLoopAwareCSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_21", "type": "Pass", "label": "triton-licm", "desc": "TritonLoopInvariantCodeMotion"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_22", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_23", "type": "Pass", "label": "triton-loop-aware-cse", "desc": "TritonLoopAwareCSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_24", "type": "Pass", "label": "tritongpu-prefetch", "desc": "TritonGPUPrefetch"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_25", "type": "Pass", "label": "tritongpu-optimize-dot-operands", "desc": "TritonGPUOptimizeDotOperands"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_26", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_27", "type": "Pass", "label": "tritongpu-coalesce-async-copy", "desc": "TritonGPUCoalesceAsyncCopy"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_28", "type": "Pass", "label": "triton-nvidia-optimize-tmem-layouts", "desc": "TritonNvidiaGPUOptimizeTMemLayoutsPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_29", "type": "Pass", "label": "tritongpu-remove-layout-conversions", "desc": "TritonGPURemoveLayoutConversions"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_30", "type": "Pass", "label": "triton-nvidia-interleave-tmem", "desc": "TritonNvidiaGPUInterleaveTMemPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_31", "type": "Pass", "label": "tritongpu-reduce-data-duplication", "desc": "TritonGPUReduceDataDuplication"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_32", "type": "Pass", "label": "tritongpu-reorder-instructions", "desc": "TritonGPUReorderInstructions"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_33", "type": "Pass", "label": "triton-loop-aware-cse", "desc": "TritonLoopAwareCSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_34", "type": "Pass", "label": "symbol-dce", "desc": "SymbolDCE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_35", "type": "Pass", "label": "triton-nvidia-gpu-fence-insertion", "desc": "TritonGPUFenceInsertion"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_36", "type": "Pass", "label": "triton-nvidia-mma-lowering", "desc": "TritonNvidiaGPUMMALoweringPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_37", "type": "Pass", "label": "sccp", "desc": "SCCP"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_38", "type": "Pass", "label": "cse", "desc": "CSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_39", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_40", "type": "Pass", "label": "tritongpu-combine-tensor-select-and-if", "desc": "TritonGPUCombineTensorSelectAndIf"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_41", "type": "Pass", "label": "tritongpu-allocate-warp-groups", "desc": "TritonGPUAllocateWarpGroups"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_42", "type": "Pass", "label": "convert-scf-to-cf", "desc": "SCFToControlFlowPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_43", "type": "Pass", "label": "gluon-inline", "desc": "GluonInline"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_44", "type": "Pass", "label": "allocate-shared-memory-nv", "desc": "AllocateSharedMemoryNv"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_45", "type": "Pass", "label": "triton-tensor-memory-allocation", "desc": "TritonTensorMemoryAllocationPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_46", "type": "Pass", "label": "triton-nvidia-check-matmul-two-cta", "desc": "TritonNvidiaGPUCheckMatmulTwoCTAPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_47", "type": "Pass", "label": "tritongpu-global-scratch-memory-allocation", "desc": "TritonGPUGlobalScratchAllocationPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_48", "type": "Pass", "label": "triton-nvidia-gpu-proxy-fence-insertion", "desc": "TritonGPUProxyFenceInsertion"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_49", "type": "Pass", "label": "convert-triton-gpu-to-llvm", "desc": "ConvertTritonGPUToLLVM"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "knob_BLOCK_SIZE_1024", "type": "Parameter", "name": "BLOCK_SIZE", "value": 1024}}
+{"node": {"id": "pass_50", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_51", "type": "Pass", "label": "cse", "desc": "CSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_52", "type": "Pass", "label": "convert-nv-gpu-to-llvm", "desc": "ConvertNVGPUToLLVM"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_53", "type": "Pass", "label": "convert-warp-specialize-to-llvm", "desc": "ConvertWarpSpecializeToLLVM"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_54", "type": "Pass", "label": "reconcile-unrealized-casts", "desc": "ReconcileUnrealizedCastsPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_55", "type": "Pass", "label": "canonicalize", "desc": "Canonicalizer"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_56", "type": "Pass", "label": "cse", "desc": "CSE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_57", "type": "Pass", "label": "symbol-dce", "desc": "SymbolDCE"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_58", "type": "Pass", "label": "convert-nvvm-to-llvm", "desc": "ConvertNVVMToLLVMPass"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "pass_59", "type": "Pass", "label": "enable-line-info", "desc": "LLVMDIScope"}}
+{"node": {"id": "knob_num_warps_4", "type": "Parameter", "name": "num_warps", "value": 4}}
+{"node": {"id": "symptom_0", "type": "HardwareEvent", "metric": "smsp__warp_stall_long_scoreboard_pct", "value": "10.5"}}
+{"node": {"id": "symptom_1", "type": "HardwareEvent", "metric": "smsp__warp_stall_short_scoreboard_pct", "value": "2.1"}}
+{"node": {"id": "symptom_2", "type": "HardwareEvent", "metric": "smsp__warp_stall_membar_pct", "value": "0.5"}}
+{"node": {"id": "symptom_3", "type": "HardwareEvent", "metric": "sm__occupancy_active_warps_pct", "value": "85.0"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_0", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_1", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_2", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_3", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_4", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_5", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_6", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_7", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_8", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_9", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_10", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_10", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_11", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_11", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_12", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_12", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_13", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_13", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_14", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_14", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_15", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_15", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_16", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_16", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_17", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_17", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_18", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_18", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_19", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_19", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_20", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_20", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_21", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_21", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_22", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_22", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_23", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_23", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_24", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_24", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_25", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_25", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_26", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_26", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_27", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_27", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_28", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_28", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_29", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_29", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_30", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_30", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_31", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_31", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_32", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_32", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_33", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_33", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_34", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_34", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_35", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_35", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_36", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_36", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_37", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_37", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_38", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_38", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_39", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_39", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_40", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_40", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_41", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_41", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_42", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_42", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_43", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_43", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_44", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_44", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_45", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_45", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_46", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_46", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_47", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_47", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_48", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_48", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_49", "type": "governed_by"}}
+{"edge": {"source": "knob_BLOCK_SIZE_1024", "target": "pass_49", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_50", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_51", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_52", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_53", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_54", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_55", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_56", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_57", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_58", "type": "governed_by"}}
+{"edge": {"source": "knob_num_warps_4", "target": "pass_59", "type": "governed_by"}}
+{"edge": {"source": "pass_59", "target": "symptom_0", "type": "manifested_as"}}
+{"edge": {"source": "pass_59", "target": "symptom_1", "type": "manifested_as"}}
+{"edge": {"source": "pass_59", "target": "symptom_2", "type": "manifested_as"}}
+{"edge": {"source": "pass_59", "target": "symptom_3", "type": "manifested_as"}}

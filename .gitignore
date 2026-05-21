@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.so
+
+runs/
+
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc

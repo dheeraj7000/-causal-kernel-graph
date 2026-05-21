@@ -1,0 +1,5 @@
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","7000","python3","localhost","matmul_conflict","1","1","","smsp__sass_thread_inst_executed_op_shared_ld_sum","count","450200"
+"0","7000","python3","localhost","matmul_conflict","1","1","","smsp__sass_thread_inst_executed_op_shared_st_sum","count","120500"
+"0","7000","python3","localhost","matmul_conflict","1","1","","smsp__warp_stall_long_scoreboard_pct","%","5.2"
+"0","7000","python3","localhost","matmul_conflict","1","1","","sm__occupancy_active_warps_pct","%","12.5"

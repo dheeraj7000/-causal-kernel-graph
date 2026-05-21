@@ -1,0 +1,3 @@
+"ID","Process ID","Process Name","Host Name","Kernel Name","Context","Stream","Section Name","Metric Name","Metric Unit","Metric Value"
+"0","1000","python3","localhost","kernel","1","1","","smsp__warp_stall_long_scoreboard_pct","%","5.00"
+"0","1000","python3","localhost","kernel","1","1","","sm__occupancy_active_warps_pct","%","100.00"
